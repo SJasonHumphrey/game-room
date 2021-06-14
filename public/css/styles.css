@@ -5,7 +5,7 @@
 }
 
 body{
-	background-image: url(../images/background.jpeg);
+	background-image: url(../images/space.jpeg);
 }
 
 canvas {
@@ -15,18 +15,18 @@ canvas {
     left: 38%;
     transform: translate(-50%, -50%);
 	z-index: -2;
-	width: 48%;
+	width: 42%;
 }
 
 #videoGrid {
 position:fixed;
-bottom: 69%;
+bottom: 73%;
 	
 }
 
 video {
-	height: 200px;
-	width: 300px;
+	height: 170px;
+	width: 270px;
 	object-fit: cover;
 	margin-right: 2rem;
 	border: 10px outset #ddd;

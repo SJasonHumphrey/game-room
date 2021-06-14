@@ -14,22 +14,32 @@ var config = {
     scene: {
     preload: preload,
     create: create,
-    update: update
-    } 
+    update: update,
+    audio: {
+        disableWebAudio: true
+    }
+},
+
 };
 
 var game = new Phaser.Game(config);
 
 function preload() {
 this.load.image('ship', 'images/playerShip2_blue.png');
-	
 this.load.image('otherPlayer', 'images/spaceShips_001.png');
 this.load.image('star', 'images/star_gold.png');
+this.load.audio('star_sound', ['audio/star.wav']);
+this.load.audio('music', [
+    'audio/game.mp3',
+    'audio/game.ogg'
+]);
 }
 
 function create() {
     var self = this;
     this.socket = io();
+    var music = this.sound.add('music',{loop: true});
+    music.play();
     this.otherPlayers = this.physics.add.group();
     this.socket.on('currentPlayers', function (players) {
     Object.keys(players).forEach(function (id) {
@@ -38,13 +48,11 @@ function create() {
         } else {
         addOtherPlayers(self, players[id]);
         }
-        
     });
 });
 
-
-this.blueScoreText = this.add.text(16, 16, '', { fontSize: '32px', fill: '#0000FF' });
-this.redScoreText = this.add.text(584, 16, '', { fontSize: '32px', fill: '#FF0000' });
+this.blueScoreText = this.add.text(16, 16, '', { font: '32px Courier', fill: '#00ff00' });
+this.redScoreText =  this.add.text(546, 16, '', { font: '32px Courier', fill: '#00ff00' });
 
 this.socket.on('scoreUpdate', function (scores) {
     self.blueScoreText.setText('Blue: ' + scores.blue);
@@ -56,6 +64,8 @@ this.socket.on('starLocation', function (starLocation) {
     self.star = self.physics.add.image(starLocation.x, starLocation.y, 'star');
     self.physics.add.overlap(self.ship, self.star, function () {
     this.socket.emit('starCollected');
+    var star_sound = this.sound.add('star_sound');
+    star_sound.play();
     }, null, self);
 });
     this.socket.on('newPlayer', function (playerInfo) {
@@ -98,6 +108,8 @@ function update() {
         if (this.ship.oldPosition && (x !== this.ship.oldPosition.x || y !== this.ship.oldPosition.y || r !== this.ship.oldPosition.rotation)) {
         this.socket.emit('playerMovement', { x: this.ship.x, y: this.ship.y, rotation: this.ship.rotation });
     }
+
+
 
 // save old position data
         this.ship.oldPosition = {
