@@ -28,6 +28,8 @@ function preload() {
 this.load.image('ship', 'images/playerShip2_blue.png');
 this.load.image('otherPlayer', 'images/spaceShips_001.png');
 this.load.image('star', 'images/star_gold.png');
+this.load.image('meteor', 'images/meteorGrey.png');
+this.load.audio('space', ['audio/outerSpace.wav'])
 this.load.audio('star_sound', ['audio/star.wav']);
 this.load.audio('music', [
     'audio/game.mp3',
@@ -38,8 +40,11 @@ this.load.audio('music', [
 function create() {
     var self = this;
     this.socket = io();
-    var music = this.sound.add('music',{loop: true});
+    var music = this.sound.add('music',{loop: false});
     music.play();
+    this.meteor = this.physics.add.image(225, 550, 'meteor').setScale(2.5);
+    this.meteor1 = this.physics.add.image(125, 250, 'meteor').setScale(2.3);
+    this.meteor2 = this.physics.add.image(725, 450, 'meteor').setScale(2);
     this.otherPlayers = this.physics.add.group();
     this.socket.on('currentPlayers', function (players) {
     Object.keys(players).forEach(function (id) {
@@ -106,6 +111,10 @@ function update() {
         var y = this.ship.y;
         var r = this.ship.rotation;
         if (this.ship.oldPosition && (x !== this.ship.oldPosition.x || y !== this.ship.oldPosition.y || r !== this.ship.oldPosition.rotation)) {
+        var space = this.sound.add('space', {
+            volume: .013,
+        });
+        space.play();
         this.socket.emit('playerMovement', { x: this.ship.x, y: this.ship.y, rotation: this.ship.rotation });
     }
 

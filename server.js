@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const router = require('./routes/index');
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 const { ExpressPeerServer } = require('peer')
@@ -11,6 +12,10 @@ const { v4: uuidv4 } = require('uuid')
 app.use('/peerjs', peerServer)
 app.use(express.static('public'))
 app.set('view engine', 'ejs')
+
+app.use(require('./routes/'));
+
+app.use(require('./routes/player'));
 
 app.get('/', (req, res) => {
 	res.redirect(`/${uuidv4()}`)
@@ -100,3 +105,5 @@ var scores = {
 const PORT = process.env.PORT || 3000
 
 server.listen(PORT, () => console.log(`Listening on port ${PORT}`))
+
+module.exports = router;
