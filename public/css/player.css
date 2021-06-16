@@ -1,6 +1,8 @@
 body, 
 html {
-    height: 100%;
+    margin: 0; 
+    height: 100%; 
+    overflow: hidden;
     background-color: rgb(34, 34, 34);
     color: azure;
 }
@@ -19,7 +21,7 @@ display: flex;
 float: left;
 flex-direction: column;
 margin-left: 8rem;
-margin-top: 1rem;
+margin-top: -3rem;
 }
 
 .col2{
@@ -27,6 +29,21 @@ display: flex;
 float: right;
 flex-direction: column;
 margin-right: 8rem;
-margin-bottom: -5rem;
 }
 
+.player{
+    margin: 1rem;
+    margin-left: 2rem;
+}
+
+.game-candy{
+    margin-right: 2.5rem;
+}
+
+.game-snake{
+    margin-left: 1.25rem;
+}
+
+.ArcadeButton{
+    margin-bottom: -2rem;
+}
