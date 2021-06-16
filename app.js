@@ -1,6 +1,6 @@
-const express = require('express')
-const passport = require('passport');
-const app = express()
+
+const express = require('express');
+const app = express();
 const helmet = require('helmet');
 const cookieSession = require('cookie-session');
 const router = require('./routes/index');
@@ -10,28 +10,44 @@ const { ExpressPeerServer } = require('peer')
 const peerServer = ExpressPeerServer(server, {
 	debug: true,
 })
-const { v4: uuidv4 } = require('uuid')
+//! do this
+const passport = require('passport');
+let PORT = 3000;
 
-app.use('/peerjs', peerServer)
+//public
+app.use(express.static('public'));
 app.use(helmet());
-app.use(express.static('public'))
-app.set('view engine', 'ejs')
 
-app.use(require('./routes/'));
-
-app.use(require('./routes/player'));
-
+//cookie-session 
 app.use(cookieSession({
     name: 'session',
     keys: ['lskdfjl;sj;lasjdfl;ajsld;fjasl;djflasjdflsak'], 
     maxAge: 14 * 24  * 60 * 60 * 1000
 }))
 
+//views
+app.set('view engine', 'ejs')
+//! do this also
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
+
+//routes 
+
+app.use(require('./routes/login')) 
+app.use(require('./routes/index'))
+
+//app.use(require('./routes/registration'))
+
+app.use('/peerjs', peerServer)
+app.use(express.static('public'))
+app.set('view engine', 'ejs')
+
+app.use(require('./routes/'));
+
+app.use(require('./routes/player'));
 
 app.get('/', (req, res) => {
 	res.redirect(`/${uuidv4()}`)
@@ -117,35 +133,8 @@ var scores = {
     red: 0
 };
 
-
-const PORT1 = process.env.PORT || 3000
-const PORT2 = process.env.PORT || 5000
-
-server.listen(PORT2, () => console.log(`Listening on port ${PORT2}`))
-app.listen(PORT1, ()=>{
-    console.log(`listening on port ${PORT1}`);
+app.listen(PORT, ()=>{
+    console.log(`listening on port ${PORT}`);
 })
 
-
 module.exports = router;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// app.use(require('./routes/login')) 
-// app.use(require('./routes/index'))
-
-
-
-
-
