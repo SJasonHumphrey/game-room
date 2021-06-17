@@ -93,7 +93,7 @@ passport.deserializeUser(async (id, done)=>{
   done(null, id)
   // try{
   //   //additional security 
-  //   //checkign to see if user is valid with the cookie that was passed 
+  //   //checking to see if user is valid with the cookie that was passed 
   //   // form the request
   //   // id is coming from the session
   //     let user = await db.users.findByPk(id);
