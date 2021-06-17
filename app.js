@@ -1,52 +1,37 @@
-
-const express = require('express');
-const app = express();
 const helmet = require('helmet');
 const cookieSession = require('cookie-session');
-const router = require('./routes/index');
-const server = require('http').Server(app)
-const io = require('socket.io')(server)
-const { ExpressPeerServer } = require('peer')
+const passport = require('passport');
+const express = require('express');
+const app = express();
+const router = require('./routes/');
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+const { ExpressPeerServer } = require('peer');
 const peerServer = ExpressPeerServer(server, {
 	debug: true,
 })
-//! do this
-const passport = require('passport');
-let PORT = 3000;
+const { v4: uuidv4 } = require('uuid')
 
-//public
+app.use('/peerjs', peerServer)
+
 app.use(express.static('public'));
+app.set('view engine', 'ejs');
 app.use(helmet());
 
-//cookie-session 
 app.use(cookieSession({
     name: 'session',
     keys: ['lskdfjl;sj;lasjdfl;ajsld;fjasl;djflasjdflsak'], 
     maxAge: 14 * 24  * 60 * 60 * 1000
 }))
 
-//views
-app.set('view engine', 'ejs')
-//! do this also
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
-//routes 
-
-app.use(require('./routes/login')) 
-app.use(require('./routes/index'))
-
-//app.use(require('./routes/registration'))
-
-app.use('/peerjs', peerServer)
-app.use(express.static('public'))
-app.set('view engine', 'ejs')
-
 app.use(require('./routes/'));
-
+app.use(require('./routes/login')); 
 app.use(require('./routes/player'));
 
 app.get('/', (req, res) => {
@@ -68,9 +53,7 @@ io.on('connection', (socket) => {
 		socket.on('disconnect', () => {
 			socket.to(roomId).broadcast.emit('user-disconnected', userId)
 		})
-
 	})
-	
 })
 
 io.on('connection', function (socket) {
@@ -133,8 +116,9 @@ var scores = {
     red: 0
 };
 
-app.listen(PORT, ()=>{
-    console.log(`listening on port ${PORT}`);
-})
+
+const PORT = process.env.PORT || 3000;
+
+server.listen(PORT, () => console.log(`Listening on port ${PORT}`))
 
 module.exports = router;

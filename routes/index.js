@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.send('index')
+    res.render('room')
 })
 //export out to main application 
 module.exports = router;
