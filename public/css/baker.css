@@ -1,0 +1,117 @@
+.grid{
+height: 608px;
+width: 608px;
+display: flex;
+flex-wrap: wrap;
+border: double 10px black;
+}
+
+.grid div{
+    height: 70px;
+    width: 70px;
+    border: solid 3px black;
+}
+
+.scoreKeeper{
+height: 608px;
+width: 300px;
+display: flexbox;
+flex-wrap: wrap;
+border: double 10px black;
+}
+
+.biggerHolder{
+    height: 750px;
+    background-image: url("/images/background.png");
+}
+.holder{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* width: 1000px; */
+    margin-right: 0;
+    
+}
+
+.header{
+    height: 75px;
+    font-weight: bold;
+    text-align: center;
+    font-style: italic;
+    font-size: 75px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    /* background-image: url("/images/background.png"); */
+}
+
+.topBox{
+    height: 125px;
+    border: solid 2px black;
+    font-family: Cambria;
+    font-size: 24px;
+    font-weight: bold;
+    color: #73d4fa;
+    /* display: flex; */
+    align-items: space-between;
+    justify-items: center;
+    text-align: center;
+    padding-top: 5px;
+    text-shadow: black 1px 1px;
+    
+}
+
+.instructions{
+    text-align: center;
+    font-size: 12;
+    color: black;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: bolder;
+
+}
+
+.score h1{
+    font-size: 50px;
+    font-weight: bolder;
+    font-style: italic;
+    color:blue ;
+    text-shadow: black 2px 2px;
+    text-align: center;
+}
+
+.bettyBaker{
+    height: 600px;
+    /* border: solid 2px black; */
+    background-image: url("/images/bettyBaker.png");
+    background-repeat: no-repeat;
+    
+}
+/* .timer h1{
+    font-size: 50px;
+    font-weight: bolder;
+    font-style: italic;
+    color:blue ;
+    text-shadow: black 2px 2px;
+    text-align: center;
+} */
+button{
+    width:210px;
+    height:40px;
+    background-color: #d780aa;
+    font-size: 24px;
+    font-style: italic;
+    font-weight:bolder ;
+    color: white;
+    text-shadow: black 1px 1px;
+    border: solid 2px #f72f90;
+    border-radius: 2px;
+    margin-top: 385px;
+    margin-left: 45px;
+}
+
+button:hover{
+    background-color: #f72f90;
+    border: solid 3px white;
+    color: #e0aec6
+}

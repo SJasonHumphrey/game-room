@@ -28,10 +28,12 @@ app.use(express.json());
 
 //routes 
 
-app.use(require('./routes/login')) 
-app.use(require('./routes/index'))
-app.use(require('./routes/starChaser'))
-app.use(require('./routes/snake'))
+app.use(require('./routes/login')); 
+app.use(require('./routes/index'));
+app.use(require('./routes/starChaser'));
+app.use(require('./routes/snake'));
+app.use(require('./routes/player'));
+app.use(require('./routes/baker'));
 
 
 // app.use(require('./routes/registration'))
