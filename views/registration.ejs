@@ -1,29 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="../css/form.css">
+    <title>Smack Board -Registration-</title>
 </head>
+
 <body>
-    <h1>Register</h1>
-    <form action="/registration" method="POST">
+    <form action="/registration" method="POST" class="reg">
+        <h1>Register</h1>
         username: <input type="text" name="username"><br>
         password: <input type="password" name="password"><br>
         email: <input type="text" name="email"><br>
-        <select name="regionID" id="regionID">
-            <% records.forEach(record => { %>
-                <option value="<<%= record.dataValues.id %>"><%= record.dataValues.name %></option>
-                <% }) %>
-        </select>
-        <input type="submit">
+        <div>
+            <select name="regionID" id="regionID">
+                <% records.forEach(record=> { %>
+                    <option value="<<%= record.dataValues.id %>">
+                        <%= record.dataValues.name %>
+                    </option>
+                    <% }) %>
+            </select>
+            <input type="submit">
+        </div>
     </form>
-    <h1>Login</h1>
-    <form action="/login" method="POST">
+    <form action="/login" method="POST" class="login">
+        <h1>Login</h1>
         username: <input type="text" name="username"><br>
         password: <input type="password" name="password"><br>
-        <input type="submit">
+        <div>
+            <input type="submit">
+        </div>
     </form>
+    <div class="center">
+        <img src="../images/smackboard.png" alt="Smack Board Logo" width="300%">
+    </div>
 </body>
+
 </html>

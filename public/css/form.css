@@ -1,0 +1,37 @@
+body{
+    background-color: rgb(34, 34, 34);
+    color: azure;
+}
+
+.reg{
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+    padding: 20px;
+    float: left;
+    margin-left: 20px;
+}
+
+.login{
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+    padding: 20px;
+    float: right; 
+    margin-right: 20px;
+}
+
+.center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+form{
+    margin-top: 10rem;
+}
+
+input{
+    border-radius: 5px;
+    height: 30px;
+}
+
