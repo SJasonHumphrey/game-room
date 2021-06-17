@@ -31,7 +31,7 @@ app.use(express.json());
 app.use(require('./routes/login')) 
 app.use(require('./routes/index'))
 app.use(require('./routes/starChaser'))
-// app.use(require('./routes/snake'))
+app.use(require('./routes/snake'))
 
 
 // app.use(require('./routes/registration'))
