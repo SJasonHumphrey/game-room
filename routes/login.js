@@ -21,7 +21,7 @@ router.get("/", async(req, res) => {
 router.post('/registration', async (req, res)=>{
   try{
     //get information from header 
-    let {username, password, email, regionID} = req.body;
+    let {username, password, email} = req.body;
     //hash our password 
     let passwordEncrypted = bcrypt.hashSync(password, 8);
     //store username, password, email inside database

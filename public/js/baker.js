@@ -1,27 +1,34 @@
-document.addEventListener('DOMContentLoaded', () => {
+
+document.addEventListener('DOMContentLoaded', async () => {
     const grid = document.querySelector('.grid')
     const scoreDisplay = document.getElementById('showScore')
     const plusOrMinus = document.getElementById('plusOrMinus')
     const width = 8
     const squares = []
-
+    let url = "/myBaker";
+    let results =  await fetch(url, { 
+        method: 'GET',
+        headers: {'Content-type': 'application/json; charset=UTF-8'}
+    });
+    const person = await results.json();
+    console.log(person)
+    var score = 0
+    person.points = score
     //going to add an option to restart the game with a button
     const restart = document.getElementById('restartGame')
     restart.addEventListener('click', ()=>{
         location.reload();
     })
-
-    let score = 0
-
+    console.log(score)
     //now i'm going to try and add a timer
     const timeLeftDisplay = document.getElementById('timeLeft') 
-    let timeLeft = 90
-    
+    let timeLeft = 9
     function runTimer(){
         if(timeLeft > -1) {
             timeLeft -= 1
             timeLeftDisplay.innerHTML = `You have ${timeLeft} seconds left`
             if (timeLeft === 0){
+                updateScore()
                 window.alert(`Times Up! You finished with ${score} brownie points!`)
                 stopTimer();
             }   
@@ -31,8 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function stopTimer(){
         clearInterval(timerInterval);
     }
-
-
 //create colors in an array
     const candyColors = [
     'url(images/red-candy.png)',
@@ -45,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
 //afterwards I went and added the url with corresponding candy color
 //so that the candy showed up instead of the color.
 //then we went through the entire file and replaced every instance of background Color to 
-
 // create a board
 function createBoard(){
     for(let i = 0; i < width*width; i++) {
@@ -63,15 +67,12 @@ function createBoard(){
         squares.push(square)
     }
 }
-
 createBoard()
-
 // time to start dragging candies. 
 let colorBeingDragged
 let colorBeingReplaced
 let squareIdBeingDragged
 let squareIdBeingReplaced
-
 //Need to use event listeners to drag
 //there are five stages to dragging the candies. 
 squares.forEach(square => square.addEventListener('dragstart', dragStart))
@@ -80,22 +81,18 @@ squares.forEach(square => square.addEventListener('dragend', dragEnd))
 squares.forEach(square => square.addEventListener('dragenter', dragEnter))
 squares.forEach(square => square.addEventListener('dragleave', dragLeave))
 squares.forEach(square => square.addEventListener('drop', dragDrop))
-
 function dragStart(){
     colorBeingDragged = this.style.backgroundImage
     squareIdBeingDragged = parseInt(this.id)
     console.log(this.id, 'dragStart')
 }
-
 function dragOver(e){
 e.preventDefault()
 }
-
 function dragEnter(e){
     e.preventDefault()
     console.log(this.id, 'dragEnter')
 }
-
 function dragLeave(){
     console.log(this.id, 'dragLeave')
 }
@@ -110,7 +107,6 @@ function dragEnd(){
         squareIdBeingDragged +width //this means the square 8 squares forward which would be below the current square
     ]
     let validMove = validMoves.includes(squareIdBeingReplaced)
-
     if(squareIdBeingReplaced && validMove){
         squareIdBeingReplaced = null
     }
@@ -121,7 +117,6 @@ function dragEnd(){
     else
         squares[squareIdBeingDragged].style.backgroundImage = colorBeingDragged
 }
-
 function dragDrop(){
     console.log(this.id, 'dragDrop')
     colorBeingReplaced = this.style.backgroundImage
@@ -129,7 +124,6 @@ function dragDrop(){
     this.style.backgroundImage = colorBeingDragged
     squares[squareIdBeingDragged].style.backgroundImage = colorBeingReplaced
 }
-
 //refer to this part after reviewing logic for checking for matches
 //now that we have got checking for matches in rows and columns of 3 and four time to make the existing blocks 
 //move down into the blank spaces
@@ -160,7 +154,19 @@ function moveDown(){
         }
     }
 }
-
+const updateScore = async () => {
+    //person.points = score
+    let url = "/newScore"; 
+    let newScore =  await fetch(url, { 
+        method: 'PUT',
+        headers: {'Content-type': 'application/json; charset=UTF-8'},
+        body: JSON.stringify({
+            points: score,
+        })
+    });
+    //let points = await newScore.json();
+    console.log(newScore)
+}
 // time to check for matches
 // first we are going to check for rows of three
 function checkRowForThree(){
@@ -168,7 +174,6 @@ function checkRowForThree(){
         let rowOfThree = [i, i+1, i+2]
         let decidedColor = squares[i].style.backgroundImage
         const isBlank = squares[i].style.backgroundImage === ''
-        
         // we also need to define what indexes are not valid to check. 
         //we dont want a connection of three to count when the are on different rows
         //eg two blue on row 1 end and 1 blue on row 2 start
@@ -176,7 +181,6 @@ function checkRowForThree(){
         //this logic below is where we tell the program if i is one of these indexes above
         //we skip it
         if (notValid.includes(i)) continue
-
         if (rowOfThree.every(index => squares[index].style.backgroundImage === decidedColor && !isBlank)){
             score += 3
             scoreDisplay.innerHTML = `Brownie Points: ${score}`
@@ -188,14 +192,12 @@ function checkRowForThree(){
     }
 }
 checkRowForThree()
-
 //now lets check for column matches of three
 function checkColumnForThree(){
     for(i = 0; i < 47; i++){
         let columnOfThree = [i, i+width, i+width*2]
         let decidedColor = squares[i].style.backgroundImage
         const isBlank = squares[i].style.backgroundImage === ''
-
         if (columnOfThree.every(index => squares[index].style.backgroundImage === decidedColor && !isBlank)){
             score += 3
             scoreDisplay.innerHTML = `Brownie Points: ${score}`
@@ -207,7 +209,6 @@ function checkColumnForThree(){
     }
 }
 checkColumnForThree()
-
 //now I am literally going to copy and paste the logic for checking rows and colums of three and insert it for 4s
 //this is where we check for rows of 4
 function checkRowForFour(){
@@ -216,7 +217,6 @@ function checkRowForFour(){
         let rowOfFour = [i, i+1, i+2, i+3]
         let decidedColor = squares[i].style.backgroundImage
         const isBlank = squares[i].style.backgroundImage === ''
-        
         // we also need to define what indexes are not valid to check. 
         //we dont want a connection of three to count when the are on different rows
         //eg two blue on row 1 end and 1 blue on row 2 start
@@ -225,7 +225,6 @@ function checkRowForFour(){
         //this logic below is where we tell the program if i is one of these indexes above
         //we skip it
         if (notValid.includes(i)) continue
-
         if (rowOfFour.every(index => squares[index].style.backgroundImage === decidedColor && !isBlank)){
             score += 4
             timeLeft += 1
@@ -238,7 +237,6 @@ function checkRowForFour(){
     }
 }
 checkRowForFour()
-
 //now lets check for column matches of four
 function checkColumnForFour(){
     for(i = 0; i < 47; i++){
@@ -246,7 +244,6 @@ function checkColumnForFour(){
         let columnOfFour = [i, i+width, i+width*2, width*3]
         let decidedColor = squares[i].style.backgroundImage
         const isBlank = squares[i].style.backgroundImage === ''
-
         if (columnOfFour.every(index => squares[index].style.backgroundImage === decidedColor && !isBlank)){
             score += 4
             timeLeft += 1
@@ -259,7 +256,6 @@ function checkColumnForFour(){
     }
 }
 checkColumnForFour()
-
 //set interval so that function as ran every 100 milliseconds
 window.setInterval(function(){
     //I want my squares to move down if the need to first
@@ -270,7 +266,4 @@ window.setInterval(function(){
     checkRowForThree()
     checkColumnForThree()
 }, 100)
-
-
 })
-
