@@ -31,7 +31,7 @@ router.post('/registration', async (req, res)=>{
       email: email, 
       regionID: 2
     })
-    res.redirect('/login')
+    res.redirect('/')
   }
   catch(error){
     res.send(error)

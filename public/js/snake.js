@@ -9,7 +9,7 @@ let url = "/mySnake";
     var score = 0
     person.points = score
 // changes the speed that the snake moves. 
-export const snakeSpeed = 8
+export const snakeSpeed = 7
 const snakeBody = [
     {x: 11, y: 11}
 ]

@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log(score)
     //now i'm going to try and add a timer
     const timeLeftDisplay = document.getElementById('timeLeft') 
-    let timeLeft = 9
+    let timeLeft = 90
     function runTimer(){
         if(timeLeft > -1) {
             timeLeft -= 1
